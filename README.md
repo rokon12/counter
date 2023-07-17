@@ -6,11 +6,11 @@ This repository contains multiple implementations of a thread-safe counter, acco
 
 The different counter implementations include:
 
-- Simple
-- Java volatile
+- Simple (without synchronization)
+- Java Synchronized
 - Unsafe
 - VarHandle
-- Lock
+- ReentrantLock
 - AtomicInteger
 
 ## Requirements
