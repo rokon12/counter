@@ -63,15 +63,7 @@ Final Counter Value: 200000000
 Expected Counter Value: 200000000  
 Time Taken: 13.654771916 seconds
 
-
-|Counter Implementation   | Time Taken (seconds)|
-|-------------------------|--------------------|
-|`SimpleCounter`            |    0.029|
-|`ThreadSafeCounter`        |   19.808|
-|`ThreadSafeCounterUsingUnsafe` | 12.420|
-|`ThreadSafeCounterUsingVarHandle` | 12.606|
-|`ThreadSafeCounterUsingLock` |   4.110|
-|`AtomicCounter`            |  13.655|
+![img.png](img.png)
 
 
 Please note that these results may vary based on the system and the current CPU workload.
