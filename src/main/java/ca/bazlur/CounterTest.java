@@ -17,13 +17,13 @@ public class CounterTest {
   private static final int NUM_THREADS = 200; // Number of threads
   private static final int NUM_INCREMENTS = 1_000_000; // Number of increments per thread
 
-  public static void main(String[] args) throws InterruptedException {
-    runCounter(new SimpleCounter());
-    runCounter(new ThreadSafeCounter());
-    runCounter(new ThreadSafeCounterUsingUnsafe());
-    runCounter(new ThreadSafeCounterUsingVarHandle());
-    runCounter(new ThreadSafeCounterUsingLock());
-    runCounter(new AtomicCounter()); 
+  public static void main(String[] args) throws InterruptedException,
+          ReflectiveOperationException {
+    for (Class<?> clazz : Counter.class.getPermittedSubclasses()) {
+        var subclazz = clazz.asSubclass(Counter.class);
+        var constructor = subclazz.getConstructor();
+        runCounter(constructor.newInstance());
+    }
   }
 
   private static void runCounter(Counter counter) throws InterruptedException {

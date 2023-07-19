@@ -3,27 +3,27 @@ package ca.bazlur;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.VarHandle;
 
-public class ThreadSafeCounterUsingVarHandle implements Counter {
-
-    private final static VarHandle VAR_HANDLE;
-
-    static {
-        try {
-            VAR_HANDLE = MethodHandles.lookup().findVarHandle(ThreadSafeCounterUsingVarHandle.class, "value", int.class);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new Error(e);
-        }
-    }
-
+public final class ThreadSafeCounterUsingVarHandle implements Counter {
     private volatile int value = 0;
 
     @Override
-    public int increment() {
-        return (int) VAR_HANDLE.getAndAdd(this, 1);
+    public void increment() {
+        VALUE.getAndAdd(this, 1);
     }
 
     @Override
     public int get() {
         return value;
+    }
+
+    private final static VarHandle VALUE;
+
+    static {
+        try {
+            VALUE = MethodHandles.lookup().findVarHandle(
+                    ThreadSafeCounterUsingVarHandle.class, "value", int.class);
+        } catch (ReflectiveOperationException e) {
+            throw new Error(e);
+        }
     }
 }

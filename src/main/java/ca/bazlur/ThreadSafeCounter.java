@@ -1,10 +1,11 @@
 package ca.bazlur;
 
-public class ThreadSafeCounter implements Counter{
+public final class ThreadSafeCounter implements Counter {
     private int value = 0;
+
     @Override
-    public synchronized int increment() {
-        return ++value;
+    public synchronized void increment() {
+        ++value;
     }
 
     @Override

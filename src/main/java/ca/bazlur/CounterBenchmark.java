@@ -19,12 +19,11 @@ import java.util.concurrent.TimeUnit;
  * <p>The class also defines instance variables for different counter implementations, which are initialized in the setup() method.
  *
  * @see Counter
- * @see SimpleCounter
  * @see ThreadSafeCounter
- * @see ThreadSafeCounterUsingUnsafe
  * @see ThreadSafeCounterUsingVarHandle
  * @see ThreadSafeCounterUsingLock
  * @see AtomicCounter
+ * @see LongAdderCounter
  */
 
 @BenchmarkMode(Mode.AverageTime)
@@ -35,21 +34,19 @@ import java.util.concurrent.TimeUnit;
 @Fork(3)
 @Threads(50)
 public class CounterBenchmark {
-  private Counter simpleCounter;
   private Counter threadsafeCounter;
-  private Counter threadSafeUsingUnsafe;
   private Counter threadSafeUsingVarHandle;
   private Counter threadSafeUsingLock;
   private Counter atomicCounter;
+  private Counter longAdderCounter;
 
   @Setup
   public void setup() {
-    simpleCounter = new SimpleCounter();
     threadsafeCounter = new ThreadSafeCounter();
-    threadSafeUsingUnsafe = new ThreadSafeCounterUsingUnsafe();
     threadSafeUsingVarHandle = new ThreadSafeCounterUsingVarHandle();
     threadSafeUsingLock = new ThreadSafeCounterUsingLock();
     atomicCounter = new AtomicCounter();
+    longAdderCounter = new LongAdderCounter();
   }
 
   private void incrementOneMillionTimes(Counter counter) {
@@ -65,16 +62,6 @@ public class CounterBenchmark {
   }
 
   @Benchmark
-  public void incrementWithSimpleCounter() {
-    incrementOneMillionTimes(simpleCounter);
-  }
-
-  @Benchmark
-  public void getWithSimpleCounter() {
-    getOneMillionTimes(simpleCounter);
-  }
-
-  @Benchmark
   public void incrementWithThreadSafeCounter() {
     incrementOneMillionTimes(threadsafeCounter);
   }
@@ -82,16 +69,6 @@ public class CounterBenchmark {
   @Benchmark
   public void getWithThreadSafeCounter() {
     getOneMillionTimes(threadsafeCounter);
-  }
-
-  @Benchmark
-  public void incrementWithThreadSafeCounterUsingUnsafe() {
-    incrementOneMillionTimes(threadSafeUsingUnsafe);
-  }
-
-  @Benchmark
-  public void getWithThreadSafeCounterUsingUnsafe() {
-    getOneMillionTimes(threadSafeUsingUnsafe);
   }
 
   @Benchmark
@@ -122,5 +99,15 @@ public class CounterBenchmark {
   @Benchmark
   public void getWithThreadAtomicInteger() {
     getOneMillionTimes(atomicCounter);
+  }
+
+  @Benchmark
+  public void incrementWithLongAdder() {
+    incrementOneMillionTimes(longAdderCounter);
+  }
+
+  @Benchmark
+  public void getWithThreadLongAdder() {
+    getOneMillionTimes(longAdderCounter);
   }
 }
