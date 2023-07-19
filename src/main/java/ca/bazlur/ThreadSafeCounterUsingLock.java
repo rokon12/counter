@@ -1,17 +1,16 @@
 package ca.bazlur;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.*;
 
-public class ThreadSafeCounterUsingLock implements Counter {
-    private int value = 0;
+public final class ThreadSafeCounterUsingLock implements Counter {
     private final Lock lock = new ReentrantLock();
+    private int value = 0;
 
     @Override
-    public int increment() {
+    public void increment() {
         lock.lock();
         try {
-            return ++value;
+            ++value;
         } finally {
             lock.unlock();
         }

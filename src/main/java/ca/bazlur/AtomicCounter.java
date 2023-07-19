@@ -1,12 +1,13 @@
 package ca.bazlur;
 
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.*;
 
-public class AtomicCounter  implements Counter{
-    AtomicInteger counter = new AtomicInteger();
+public final class AtomicCounter implements Counter {
+    private final AtomicInteger counter = new AtomicInteger();
+
     @Override
-    public int increment() {
-        return counter.incrementAndGet();
+    public void increment() {
+        counter.incrementAndGet();
     }
 
     @Override
