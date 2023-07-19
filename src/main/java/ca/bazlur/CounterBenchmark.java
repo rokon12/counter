@@ -92,12 +92,12 @@ public class CounterBenchmark {
   }
 
   @Benchmark
-  public void incrementWithAtomicInteger() {
+  public void incrementAtomicInteger() {
     incrementOneMillionTimes(atomicCounter);
   }
 
   @Benchmark
-  public void getWithThreadAtomicInteger() {
+  public void getWithAtomicInteger() {
     getOneMillionTimes(atomicCounter);
   }
 
@@ -107,7 +107,7 @@ public class CounterBenchmark {
   }
 
   @Benchmark
-  public void getWithThreadLongAdder() {
+  public void getWithLongAdder() {
     getOneMillionTimes(longAdderCounter);
   }
 }
