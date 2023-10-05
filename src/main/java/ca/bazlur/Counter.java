@@ -4,9 +4,7 @@ package ca.bazlur;
  * The Counter interface represents a simple counter.
  * It provides methods to increment the counter and retrieve its value.
  */
-public sealed interface Counter permits
-        AtomicCounter, LongAdderCounter, ThreadSafeCounter,
-        ThreadSafeCounterUsingLock, ThreadSafeCounterUsingVarHandle {
+public sealed interface Counter permits AtomicCounter, CounterWithStampLock, LongAdderCounter, ThreadSafeCounter, ThreadSafeCounterUsingLock, ThreadSafeCounterUsingVarHandle {
     /**
      * Increments the value of the counter by one.
      */

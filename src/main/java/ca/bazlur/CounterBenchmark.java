@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @see ThreadSafeCounterUsingLock
  * @see AtomicCounter
  * @see LongAdderCounter
+ * @see CounterWithStampLock
  */
 
 @BenchmarkMode(Mode.AverageTime)
@@ -40,6 +41,8 @@ public class CounterBenchmark {
   private Counter atomicCounter;
   private Counter longAdderCounter;
 
+  private Counter counterWithStampLock;
+
   @Setup
   public void setup() {
     threadsafeCounter = new ThreadSafeCounter();
@@ -47,6 +50,7 @@ public class CounterBenchmark {
     threadSafeUsingLock = new ThreadSafeCounterUsingLock();
     atomicCounter = new AtomicCounter();
     longAdderCounter = new LongAdderCounter();
+    counterWithStampLock = new CounterWithStampLock();
   }
 
   private void incrementOneMillionTimes(Counter counter) {
@@ -109,5 +113,15 @@ public class CounterBenchmark {
   @Benchmark
   public void getWithLongAdder() {
     getOneMillionTimes(longAdderCounter);
+  }
+
+  @Benchmark
+  public void incrementWithStampLock() {
+    incrementOneMillionTimes(counterWithStampLock);
+  }
+
+  @Benchmark
+  public void getWithStampLock() {
+    getOneMillionTimes(counterWithStampLock);
   }
 }

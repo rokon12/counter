@@ -12,6 +12,7 @@ The different counter implementations include:
 - VarHandle
 - ReentrantLock
 - AtomicInteger
+- StampedLock
 
 ## Requirements
 
@@ -32,18 +33,15 @@ This set of results presents the time taken to increment a counter to a final va
 Here's a summary of the time taken by each method:
 
 1. **AtomicCounter**: This method took 10.743532042 seconds to reach the final counter value. This is relatively faster compared to some methods but slower than the LongAdderCounter and ThreadSafeCounterUsingLock methods.
-
 2. **LongAdderCounter**: This method was the fastest, taking only 0.219587042 seconds to reach the final counter value. This aligns with the results from the earlier benchmark, where LongAdder was the fastest method for incrementing the counter.
-
 3. **ThreadSafeCounter**: This method took the longest time, with 18.984246167 seconds needed to reach the final counter value.
-
 4. **ThreadSafeCounterUsingLock**: This method took 3.840325584 seconds, making it the second-fastest method after LongAdderCounter.
-
 5. **ThreadSafeCounterUsingVarHandle**: This method took 12.87625075 seconds, which is relatively slower compared to most of the other methods.
+6**CounterWithStampLock**: This method took 3.953271125 seconds, which is relatively slower compared to most of the other methods.
 
 In conclusion, the LongAdderCounter was the most efficient method in terms of time performance for this task. However, as before, keep in mind that the most suitable method depends on the specific requirements and constraints of your application. It's also worth noting that all methods accurately reached the expected count, demonstrating that they are all correct in terms of their basic functionality.
 
-![img.png](img.png)
+![img_2.png](img_2.png)
 
 Please note that these results may vary based on the system and the current CPU workload.
 
@@ -67,19 +65,21 @@ modes can be very significant. Please make sure you use the consistent Blackhole
 
 ```
 Benchmark                                                      Mode  Cnt           Score           Error  Units
-CounterBenchmark.getWithAtomicInteger                          avgt   15     1181169.398 ±     80658.422  ns/op
-CounterBenchmark.getWithLongAdder                              avgt   15     4319934.284 ±    243032.938  ns/op
-CounterBenchmark.getWithThreadSafeCounter                      avgt   15  1197738852.701 ±  43607731.777  ns/op
-CounterBenchmark.getWithThreadSafeCounterUsingLock             avgt   15   882019639.176 ±  19887398.014  ns/op
-CounterBenchmark.getWithThreadSafeCounterUsingVarHandle        avgt   15      244977.155 ±      5032.613  ns/op
-CounterBenchmark.incrementAtomicInteger                        avgt   15  3093682730.077 ± 319165683.588  ns/op
-CounterBenchmark.incrementWithLongAdder                        avgt   15    52142760.859 ±  18214042.032  ns/op
-CounterBenchmark.incrementWithThreadSafeCounter                avgt   15  1197936993.549 ±  46691109.878  ns/op
-CounterBenchmark.incrementWithThreadSafeCounterUsingLock       avgt   15  1080082160.941 ± 120414375.182  ns/op
-CounterBenchmark.incrementWithThreadSafeCounterUsingVarHandle  avgt   15  3148086776.800 ±  69750181.388  ns/op
+CounterBenchmark.getWithAtomicInteger                          avgt   15     1093106.166 ±     53370.299  ns/op
+CounterBenchmark.getWithLongAdder                              avgt   15     3747386.389 ±     41733.570  ns/op
+CounterBenchmark.getWithStampLock                              avgt   15    13296181.366 ±    952092.520  ns/op
+CounterBenchmark.getWithThreadSafeCounter                      avgt   15   424348822.102 ±  20478421.238  ns/op
+CounterBenchmark.getWithThreadSafeCounterUsingLock             avgt   15   928298763.342 ±  16418967.668  ns/op
+CounterBenchmark.getWithThreadSafeCounterUsingVarHandle        avgt   15      232771.795 ±      7547.667  ns/op
+CounterBenchmark.incrementAtomicInteger                        avgt   15  3571723094.513 ± 140605248.935  ns/op
+CounterBenchmark.incrementWithLongAdder                        avgt   15    42924111.052 ±    657698.422  ns/op
+CounterBenchmark.incrementWithStampLock                        avgt   15   938257146.683 ±   5731120.829  ns/op
+CounterBenchmark.incrementWithThreadSafeCounter                avgt   15   439844887.819 ±  27953520.499  ns/op
+CounterBenchmark.incrementWithThreadSafeCounterUsingLock       avgt   15   983674462.421 ±   8325975.726  ns/op
+CounterBenchmark.incrementWithThreadSafeCounterUsingVarHandle  avgt   15  3413946820.184 ± 156115101.863  ns/op
 ```
 
-![benchmark.png](benchmark.png)
+![img_1.png](img_1.png)
 
 Here are the two bar charts that visualize the benchmark results for the "get" operations and the "increment" operations, respectively.
 
